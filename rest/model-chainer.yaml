@@ -1,0 +1,12 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: InferenceGraph
+metadata:
+  name: model-chainer
+spec:
+  nodes:
+    root:
+      routerType: Sequence
+      steps:
+        - serviceName: sklearn-iris
+        - serviceName: xgboost-iris
+          data: $request

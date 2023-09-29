@@ -1,0 +1,35 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "cat-dog-classifier"
+  annotations:
+    serving.knative.openshift.io/enablePassthrough: "true"
+    sidecar.istio.io/inject: "true"
+    sidecar.istio.io/rewriteAppHTTPProbers: "true"
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: pytorch
+      resources:
+        requests:
+          cpu: 100m
+      storageUri: gs://kfserving-examples/models/torchserve/cat_dog_classification
+---
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "dog-breed-classifier"
+  annotations:
+    serving.knative.openshift.io/enablePassthrough: "true"
+    sidecar.istio.io/inject: "true"
+    sidecar.istio.io/rewriteAppHTTPProbers: "true"
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: pytorch
+      resources:
+        requests:
+          cpu: 100m
+      storageUri: gs://kfserving-examples/models/torchserve/dog_breed_classification

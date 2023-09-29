@@ -1,0 +1,16 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: InferenceGraph
+metadata:
+  annotations:
+    serving.knative.openshift.io/enablePassthrough: "true"
+    sidecar.istio.io/inject: "true"
+    sidecar.istio.io/rewriteAppHTTPProbers: "true"
+  name: model-chainer
+spec:
+  nodes:
+    root:
+      routerType: Sequence
+      steps:
+        - serviceName: sklearn-irisv2
+        - serviceName: xgboost-iris
+          data: $request

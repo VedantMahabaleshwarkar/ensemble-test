@@ -1,0 +1,19 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  annotations:
+    serving.knative.openshift.io/enablePassthrough: "true"
+    sidecar.istio.io/inject: "true"
+    sidecar.istio.io/rewriteAppHTTPProbers: "true"
+  name: "xgboost-iris"
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: xgboost
+      runtime: kserve-mlserver
+      storageUri: "gs://kfserving-examples/models/xgboost/iris"
+      ports:
+        - containerPort: 9000
+          name: h2c
+          protocol: TCP

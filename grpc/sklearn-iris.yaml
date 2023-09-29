@@ -1,0 +1,20 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  annotations:
+    serving.knative.openshift.io/enablePassthrough: "true"
+    sidecar.istio.io/inject: "true"
+    sidecar.istio.io/rewriteAppHTTPProbers: "true"
+  name: "sklearn-irisv2"
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: sklearn
+      runtime: kserve-mlserver
+      storageUri: "gs://seldon-models/sklearn/mms/lr_model"
+      ports:
+        - containerPort: 9000
+          name: h2c
+          protocol: TCP
+
